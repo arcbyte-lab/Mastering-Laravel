@@ -1,0 +1,13 @@
+{
+    "name": "arcbyte-lab/task-orchestrator",
+    "description": "Project-based learning for Modern PHP",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.2"
+    }
+}
