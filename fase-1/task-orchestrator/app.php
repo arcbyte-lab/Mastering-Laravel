@@ -4,13 +4,24 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Models\Task;
 use App\Enums\TaskStatus;
+use App\Repositories\JsonTaskRepository;
+use App\Contracts\TaskRepositoryInterface;
 
-$myTask = new Task(
-    id: 1,
-    title: "Belajar PHP Modern",
-    description: "Memahami Enum dan Property Promotion",
-    status: TaskStatus::IN_PROGRESS,
-);
+function renderTasks(TaskRepositoryInterface $repository): void
+{
+    $tasks = $repository->getAll();
 
-echo "Tugas: " . $myTask->title . PHP_EOL;
-echo "Status: " . $myTask->status->getLabel() . PHP_EOL;
+    foreach ($tasks as $task) {
+        echo "Tugas: " . $task->title . PHP_EOL;
+        echo "Status: " . $task->status->getLabel() . PHP_EOL;
+        echo "------------------" . PHP_EOL;
+    }
+}
+
+$repository = new JsonTaskRepository(__DIR__ . '/tasks.json');
+
+$repository->save(new Task(1, "Belajar PHP Modern", "Memahami Enum dan Property Promotion", TaskStatus::IN_PROGRESS));
+$repository->save(new Task(2, "Belajar Interface", "Latihan Milestone 2", TaskStatus::IN_PROGRESS));
+$repository->save(new Task(3, "Review Code", "Mengecek standarisasi PSR", TaskStatus::PENDING));
+
+renderTasks($repository);
